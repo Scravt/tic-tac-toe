@@ -37,20 +37,20 @@ const Square = ({children, isSlected, updateBoard, index})=>{
 
 function App() {
   const  [board, setBoard] = useState(Array(9).fill(null))
-
   const [turn, setTurn] = useState(Turns.X)
-  const [wineer, setWineer] = useState(null)
+  const [winner, setWinner] = useState(null)
+
+
 
   const checkWinner = (boardToCheck) => {
+    
     for(const combo of winningCombination){
-      const [a,b,c] = combo
-      
+      const [a,b,c] = combo 
       if(
         boardToCheck[a] && 
         boardToCheck[a] === boardToCheck[b] &&
         boardToCheck[a] === boardToCheck[c]){
-        
-
+        console.log(boardToCheck[a])
         return boardToCheck[a]
       }
       
@@ -60,21 +60,18 @@ function App() {
 
 
   const updateBoard = (index) => {
-    if(board[index] || wineer){
+    if(board[index] || winner){
       return
     }
     const newBoard = [...board]
     newBoard[index] = turn
     setBoard(newBoard)
-
-
     const newTurn = turn === Turns.X ? Turns.O : Turns.X
     setTurn(newTurn)
-
-    const winner = checkWinner(newBoard)
-    if(winner){
-      setWineer(winner)
-      alert(`The winner is ${winner}`)
+    const newWinner = checkWinner(newBoard)
+    if(newWinner!==null){
+      setWinner(newWinner)
+     
     }
   }
 
@@ -82,15 +79,19 @@ function App() {
   <main className="board">
     <h1>tic tac toe</h1>
     <section className="game">
-            {board.map((value, index) => (
-              
-              <Square 
-                key={index} 
+    {
+          board.map((square, index) => {
+            return (
+              <Square
+                key={index}
                 index={index}
-                updateBoard={updateBoard}>
-                  {value}
+                updateBoard={updateBoard}
+              >
+                {square}
               </Square>
-            ))}
+            )
+          })
+        }
     </section>
     <section className="turn">
       <Square isSlected={turn===Turns.X}>
@@ -100,6 +101,35 @@ function App() {
         {Turns.O}
       </Square>
     </section>
+    {
+      winner!=null && (
+        <section className="winner">
+          <div className="text">
+            <h2>
+              {
+                winner === false ? 'Draw' : `Vctory`
+              }
+            </h2>
+            <header>
+              {winner&& <Square>{winner}</Square>}
+            </header>
+
+            <footer>  
+              <button onClick={()=>{
+                setBoard(Array(9).fill(null))
+                setWinner(null)
+              }}>New Game</button>
+            </footer>
+
+          </div>
+        </section>
+
+      )
+    }
+    
+   
+
+
   </main>
   )
 }
