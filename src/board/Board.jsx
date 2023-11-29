@@ -40,6 +40,10 @@ export const Board = () => {
     return null
   } 
 
+  const checkEndGame = (boardToCheck) => {
+   return boardToCheck.every(square => square!==null)
+  }
+
 
   const updateBoard = (index) => {
     if(board[index] || winner){
@@ -53,8 +57,10 @@ export const Board = () => {
     const newWinner = checkWinner(newBoard)
     if(newWinner!==null){
       setWinner(newWinner)
+    }else if(checkEndGame(newBoard)){
+        setWinner(false)
     }
-  }
+    }
 
   return (
   <main className="board">
@@ -91,7 +97,7 @@ export const Board = () => {
                 winner === false ? 'Draw' : `Vctory`
               }
             </h2>
-            
+
             <header>
               {winner&& <Square>{winner}</Square>}
             </header>
