@@ -44,12 +44,12 @@ function App() {
   const checkWinner = (boardToCheck) => {
     for(const combo of winningCombination){
       const [a,b,c] = combo
-      console.log(combo)
+      
       if(
         boardToCheck[a] && 
         boardToCheck[a] === boardToCheck[b] &&
         boardToCheck[a] === boardToCheck[c]){
-          console.log(boardToCheck[a])
+        
 
         return boardToCheck[a]
       }
@@ -66,7 +66,7 @@ function App() {
     const newBoard = [...board]
     newBoard[index] = turn
     setBoard(newBoard)
-    console.log(newBoard)
+
 
     const newTurn = turn === Turns.X ? Turns.O : Turns.X
     setTurn(newTurn)
@@ -74,6 +74,7 @@ function App() {
     const winner = checkWinner(newBoard)
     if(winner){
       setWineer(winner)
+      alert(`The winner is ${winner}`)
     }
   }
 
